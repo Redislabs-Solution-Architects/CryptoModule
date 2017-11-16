@@ -33,9 +33,8 @@ int blocksize()
 Returns the cypher block size. It will make sure that the buffer for encryption is allocated according to the block size.
 
 The module comes with 2 crypto libraries:
-simplecrypto - This library encrypts data by performing a bitwise XOR operation with some random data. It mainly serves as an example of a crypto library.
-
-mcrypto - This library uses the mcrypt library. You need to make sure that mcrypt is installed on the server in order to use it.
+* simplecrypto - This library encrypts data by performing a bitwise XOR operation with some random data. It mainly serves as an example of a crypto library.
+* mcrypto - This library uses the mcrypt library. You need to make sure that mcrypt is installed on the server in order to use it.
 
 ## Commands
 The following commands are supported by the module:
