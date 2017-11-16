@@ -12,18 +12,23 @@ The module supports string and hashes. It uses the same syntax as the original c
 The crypto module can be loaded, just like any other module, through a command or configuration.
 It accept a single parameter which is the shared object of the crypto library to use.
 
-##Crypto library
+## Crypto library
 The crypto module supports multiple crypto libraries and and through that, supports multiple encryption methods.
 The module dynamically loads the crypto library provided as a parameter.
 In order for a crypto library to be used by the module, it needs to export the following funcrtions:
 
-`int encrypt(void* buffer, int buffer_len)`
+```
+int encrypt(void* buffer, int buffer_len)
+```
 Performs an inplace encryption of the input buffer with the input size
 
-`int decrypt(void* buffer, int buffer_len)`
+```
+int decrypt(void* buffer, int buffer_len)
+```
 Performs an inplace decryption of the input buffer with the input size
 
-`int blocksize()`
+```int blocksize()
+```
 Returns the cypher block size. It will make sure that the buffer for encryption is allocated according to the block size.
 
 The module comes with 2 crypto libraries:
@@ -31,7 +36,7 @@ simplecrypto - This library encrypts data by performing a bitwise XOR operation 
 
 mcrypto - This library uses the mcrypt library. You need to make sure that mcrypt is installed on the server in order to use it.
 
-##Commands
+## Commands
 The following commands are supported by the module:
 
 ```
