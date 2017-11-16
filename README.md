@@ -27,7 +27,8 @@ int decrypt(void* buffer, int buffer_len)
 ```
 Performs an inplace decryption of the input buffer with the input size
 
-```int blocksize()
+```
+int blocksize()
 ```
 Returns the cypher block size. It will make sure that the buffer for encryption is allocated according to the block size.
 
