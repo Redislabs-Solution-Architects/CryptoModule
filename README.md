@@ -12,6 +12,8 @@ The module supports string and hashes. It uses the same syntax as the original c
 The crypto module can be loaded, just like any other module, through a command or configuration.
 It accept a single parameter which is the shared object of the crypto library to use.
 
+## Loading in Redis Enterprise
+
 ## Crypto library
 The crypto module supports multiple crypto libraries and and through that, supports multiple encryption methods.
 The module dynamically loads the crypto library provided as a parameter.

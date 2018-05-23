@@ -1,0 +1,193 @@
+{
+    "architecture": "x86_64", 
+    "author": "Yuval Shkedi", 
+    "capabilities": [
+        "failover_migrate", 
+        "clustering", 
+        "reshard_rebalance", 
+        "hash_policy", 
+        "flash", 
+        "eviction_expiry", 
+        "persistence_aof", 
+        "backup_restore", 
+        "persistence_rdb", 
+        "replica_of"
+    ], 
+    "command_line_args": "/opt/redislabs/lib/modules/mcrypto.so", 
+    "commands": [
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hstrlen", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.set", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hsetnx", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hget", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hvals", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hmget", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.setnx", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hset", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.append", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.get", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.mset", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hmset", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.strlen", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.mget", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.getset", 
+            "first_key": 1, 
+            "flags": [
+                "write"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }, 
+        {
+            "command_arity": -1, 
+            "command_name": "crypto.hgetall", 
+            "first_key": 1, 
+            "flags": [
+                "readonly"
+            ], 
+            "last_key": 1, 
+            "step": 1
+        }
+    ], 
+    "description": "", 
+    "display_name": "Crypto Module", 
+    "email": "yuval.shkedi@redislabs.com", 
+    "homepage": "", 
+    "license": "", 
+    "min_redis_pack_version": "5.0", 
+    "min_redis_version": "4.0.2", 
+    "module_file": "cryptomodule.so", 
+    "module_name": "crypto", 
+    "os": "Linux", 
+    "ramp_format_version": 1, 
+    "semantic_version": "0.0.1", 
+    "sha256": "4bd1b56229dcfaea2660488e7aafc91356ed7068e34c74d88965ddde20a14683", 
+    "version": 1.0
+}

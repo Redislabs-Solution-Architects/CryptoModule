@@ -25,7 +25,7 @@ size_t get(RedisModuleCtx *ctx, const RedisModuleString * key, char **value)
     reply = RedisModule_Call(ctx,"GET","s", key);
     if (RedisModule_CallReplyType(reply) == REDISMODULE_REPLY_ERROR) 
     {
-		RedisModule_ReplyWithCallReply(ctx, reply);
+	RedisModule_ReplyWithCallReply(ctx, reply);
         RedisModule_FreeCallReply(reply);
         return -1;
     }
@@ -33,8 +33,8 @@ size_t get(RedisModuleCtx *ctx, const RedisModuleString * key, char **value)
     if ( RedisModule_CallReplyType(reply) == REDISMODULE_REPLY_NULL )
     {
         RedisModule_FreeCallReply(reply);
-		*value = NULL;
-		return 0;
+	*value = NULL;
+	return 0;
     }
 
     size_t bufsize;
@@ -65,7 +65,7 @@ RedisModuleCallReply * set(RedisModuleCtx *ctx, const RedisModuleString *key, co
     RedisModuleString* cryptValue = RedisModule_CreateString(ctx, cryptVal, bufsize);
 
     RedisModuleCallReply *reply;
-    reply = RedisModule_Call(ctx,"SET","ss", key, cryptValue);
+    reply = RedisModule_Call(ctx,"SET","!ss", key, cryptValue);
     RedisModule_FreeString(ctx, cryptValue);
     RedisModule_Free(cryptVal);
     return reply;
@@ -116,7 +116,7 @@ int CryptoGet_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     size_t len = get(ctx, argv[1], &cryptVal);
     if ( len ==  (size_t) -1 )
     {
-		return REDISMODULE_OK;
+	return REDISMODULE_OK;
     }
 	
     if (cryptVal == NULL)
@@ -202,7 +202,6 @@ int CryptoGetSet_RedisCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int
     {
         return REDISMODULE_OK;
     }
-	
     RedisModuleCallReply *reply = set(ctx, argv[1], argv[2]);
     RedisModule_FreeCallReply(reply);
     if (cryptVal == NULL)
@@ -314,7 +313,7 @@ RedisModuleCallReply * hset(RedisModuleCtx *ctx, const RedisModuleString *key, c
     RedisModuleString* cryptValue = RedisModule_CreateString(ctx, cryptVal, bufsize);
 
     RedisModuleCallReply *reply;
-    reply = RedisModule_Call(ctx,"HSET","sss", key, field, cryptValue);
+    reply = RedisModule_Call(ctx,"HSET","!sss", key, field, cryptValue);
     RedisModule_FreeString(ctx, cryptValue);
     RedisModule_Free(cryptVal);
     return reply;
@@ -325,7 +324,7 @@ size_t hmget(RedisModuleCtx *ctx, const RedisModuleString * key, RedisModuleStri
     RedisModuleCallReply *reply;
 
     reply = RedisModule_Call(ctx,"HMGET","sv", key, fields, len);
-    if (RedisModule_CallReplyType(reply) == REDISMODULE_REPLY_ERROR)
+     if (RedisModule_CallReplyType(reply) == REDISMODULE_REPLY_ERROR)
     {
         RedisModule_ReplyWithCallReply(ctx, reply);
         RedisModule_FreeCallReply(reply);
@@ -388,24 +387,24 @@ size_t hgetall(RedisModuleCtx *ctx, const RedisModuleString * key)
     char * cryptVal;
     for (;i < size; i++)
     {
-		RedisModuleCallReply * strReply = RedisModule_CallReplyArrayElement(reply, i);
-		if ((i % 2) == 0)
-		{
-		 RedisModule_ReplyWithCallReply(ctx, strReply);		
-			 RedisModule_FreeCallReply(strReply);
-			 continue;
-		}
+	RedisModuleCallReply * strReply = RedisModule_CallReplyArrayElement(reply, i);
+	if ((i % 2) == 0)
+    	{
+ 	     RedisModule_ReplyWithCallReply(ctx, strReply);		
+             RedisModule_FreeCallReply(strReply);
+             continue;
+        }
 
-		const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
-		cryptVal = RedisModule_Alloc(bufsize);
-		memcpy(cryptVal, repVal, bufsize);
-		(*decrypt)(cryptVal, bufsize);
+	const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
+    	cryptVal = RedisModule_Alloc(bufsize);
+    	memcpy(cryptVal, repVal, bufsize);
+    	(*decrypt)(cryptVal, bufsize);
 
-		size_t len = *(size_t *)&cryptVal[0];
-		memmove(cryptVal, cryptVal + sizeof(size_t), len);
-		RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
-		RedisModule_FreeCallReply(strReply);
-		RedisModule_Free(cryptVal);
+    	size_t len = *(size_t *)&cryptVal[0];
+    	memmove(cryptVal, cryptVal + sizeof(size_t), len);
+	RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
+    	RedisModule_FreeCallReply(strReply);
+	RedisModule_Free(cryptVal);
     }
    
     RedisModule_FreeCallReply(reply);
