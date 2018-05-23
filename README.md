@@ -8,9 +8,11 @@ The values are encrypted while they are stored in redis, including when persiste
 It supports dynamic loading of a crypto library, so users can use any encryption library they prefer.
 The module supports strings and hashes. It uses the same syntax as the original commands, but the command name is prepended by "CRYPTO.".
 
-##Compile
+## Compile
 Move to the src directory and run
-```make```
+```
+make
+```
 
 ## Loading
 The crypto module can be loaded, just like any other module, through a command or configuration.
