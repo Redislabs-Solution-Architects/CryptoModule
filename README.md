@@ -4,15 +4,29 @@ A module for data encryption in Redis
 
 ## Overview
 The crypto module encrypts values just before storing them in redis and decrypts them just after reading them from redis. 
-The values are encrypted while they are stored in redis, including when persited to disk or replicated to slaves.
+The values are encrypted while they are stored in redis, including when persisted to disk or replicated to slaves.
 It supports dynamic loading of a crypto library, so users can use any encryption library they prefer.
-The module supports string and hashes. It uses the same syntax as the original commands, but the command name is prepended by "CRYPTO.".
+The module supports strings and hashes. It uses the same syntax as the original commands, but the command name is prepended by "CRYPTO.".
+
+##Compile
+Move to the src directory and run
+```make```
 
 ## Loading
 The crypto module can be loaded, just like any other module, through a command or configuration.
 It accept a single parameter which is the shared object of the crypto library to use.
+To load through the configuration file, add the following line to redis.conf:
+```
+loadmodule cryptomodule.so mcrypto.so
+```
+
+You need to provide the full path for the .so files.
 
 ## Loading in Redis Enterprise
+Create a zip file containing the cryptomodule.so and the module.json file.
+Load it through the Redis Enterprise UI.
+Copy the mcrypto.so to /opt/redislabs/lib/modules/ on all nodes.
+Create a database and choose the Crypto Module from the list of modules.
 
 ## Crypto library
 The crypto module supports multiple crypto libraries and and through that, supports multiple encryption methods.
