@@ -16,26 +16,26 @@ endif
 all: cryptomodule.so simplecrypto.so mcrypto.so cryptomodulemc.so
 
 .c.xo:
-        $(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
+	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
 
 
-cryptomodule.xo: redismodule.h
+cryptomodule.xo:
 
 cryptomodule.so: cryptomodule.xo
-        $(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS)
+	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS)
 
-simplecrypto.xo: redismodule.h
+simplecrypto.xo:
 
 simplecrypto.so: simplecrypto.xo
-        $(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS)
+	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS)
 
-mcrypto.xo: redismodule.h
+mcrypto.xo:
 
 mcrypto.so: mcrypto.xo
-        $(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
+	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
 
 cryptomodulemc.so: cryptomodulemc.xo
-        $(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
+	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
 
 clean:
-        rm -rf *.xo *.so
+	rm -rf *.xo *.so
