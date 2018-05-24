@@ -13,7 +13,7 @@ endif
 
 .SUFFIXES: .c .so .xo .o
 
-all: cryptomodule.so simplecrypto.so mcrypto.so cryptomodulemc.so
+all: cryptomodule.so simplecrypto.so mcrypto.so 
 
 .c.xo:
 	$(CC) -I. $(CFLAGS) $(SHOBJ_CFLAGS) -fPIC -c $< -o $@
@@ -32,9 +32,6 @@ simplecrypto.so: simplecrypto.xo
 mcrypto.xo:
 
 mcrypto.so: mcrypto.xo
-	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
-
-cryptomodulemc.so: cryptomodulemc.xo
 	$(LD) -o $@ $< $(SHOBJ_LDFLAGS) $(LIBS) -lc -lmcrypt
 
 clean:
