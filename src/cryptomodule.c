@@ -1,5 +1,5 @@
 
-#include "../redismodule.h"
+#include <redismodule.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -41,9 +41,24 @@ size_t get(RedisModuleCtx *ctx, const RedisModuleString * key, char **value)
     const char * repVal = RedisModule_CallReplyStringPtr(reply, &bufsize);
     char * cryptVal = RedisModule_Alloc(bufsize);
     memcpy(cryptVal, repVal, bufsize);
-    (*decrypt)(cryptVal, bufsize);
+    if ((*decrypt)(cryptVal, bufsize) != 0)
+    {
+	RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+	RedisModule_FreeCallReply(reply);
+	RedisModule_Free(cryptVal);
+	return -1;	
+    }
+
 
     size_t len = *(size_t *)&cryptVal[0];
+    if ( len > bufsize - sizeof(size_t) )
+    {
+	RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+        RedisModule_FreeCallReply(reply);
+        RedisModule_Free(cryptVal);
+        return -1;
+    }
+
     memmove(cryptVal, cryptVal + sizeof(size_t), len);
     *value = cryptVal;
     RedisModule_FreeCallReply(reply);
@@ -95,9 +110,24 @@ size_t mget(RedisModuleCtx *ctx, RedisModuleString ** keys, size_t len)
         const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
         cryptVal = RedisModule_Alloc(bufsize);
         memcpy(cryptVal, repVal, bufsize);
-        (*decrypt)(cryptVal, bufsize);
+        if ((*decrypt)(cryptVal, bufsize) != 0)
+    	{
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+    	}
+
 
         size_t len = *(size_t *)&cryptVal[0];
+        if ( len > bufsize - sizeof(size_t) )
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+    	}
+
         memmove(cryptVal, cryptVal + sizeof(size_t), len);
         RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
         RedisModule_FreeCallReply(strReply);
@@ -289,9 +319,24 @@ size_t hget(RedisModuleCtx *ctx, const RedisModuleString * key, const RedisModul
     const char * repVal = RedisModule_CallReplyStringPtr(reply, &bufsize);
     char * cryptVal = RedisModule_Alloc(bufsize);
     memcpy(cryptVal, repVal, bufsize);
-    (*decrypt)(cryptVal, bufsize);
+    if ((*decrypt)(cryptVal, bufsize) != 0)
+    {
+        RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+        RedisModule_FreeCallReply(reply);
+        RedisModule_Free(cryptVal);
+        return -1;
+    }
+
 
     size_t len = *(size_t *)&cryptVal[0];
+    if ( len > bufsize - sizeof(size_t) )
+    {
+        RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+        RedisModule_FreeCallReply(reply);
+        RedisModule_Free(cryptVal);
+        return -1;
+    }
+
     memmove(cryptVal, cryptVal + sizeof(size_t), len);
     *value = cryptVal;
     RedisModule_FreeCallReply(reply);
@@ -349,9 +394,23 @@ size_t hmget(RedisModuleCtx *ctx, const RedisModuleString * key, RedisModuleStri
         const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
         cryptVal = RedisModule_Alloc(bufsize);
         memcpy(cryptVal, repVal, bufsize);
-        (*decrypt)(cryptVal, bufsize);
+	if ((*decrypt)(cryptVal, bufsize) != 0)
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
 
         size_t len = *(size_t *)&cryptVal[0];
+        if ( len > bufsize - sizeof(size_t) )
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
+
         memmove(cryptVal, cryptVal + sizeof(size_t), len);
         RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
         RedisModule_FreeCallReply(strReply);
@@ -398,9 +457,23 @@ size_t hgetall(RedisModuleCtx *ctx, const RedisModuleString * key)
 	const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
     	cryptVal = RedisModule_Alloc(bufsize);
     	memcpy(cryptVal, repVal, bufsize);
-    	(*decrypt)(cryptVal, bufsize);
+	if ((*decrypt)(cryptVal, bufsize) != 0)
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
 
-    	size_t len = *(size_t *)&cryptVal[0];
+        size_t len = *(size_t *)&cryptVal[0];
+        if ( len > bufsize - sizeof(size_t) )
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
+
     	memmove(cryptVal, cryptVal + sizeof(size_t), len);
 	RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
     	RedisModule_FreeCallReply(strReply);
@@ -440,9 +513,24 @@ size_t hvals(RedisModuleCtx *ctx, const RedisModuleString * key)
         const char * repVal = RedisModule_CallReplyStringPtr(strReply, &bufsize);
         cryptVal = RedisModule_Alloc(bufsize);
         memcpy(cryptVal, repVal, bufsize);
-        (*decrypt)(cryptVal, bufsize);
+	if ((*decrypt)(cryptVal, bufsize) != 0)
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
+
 
         size_t len = *(size_t *)&cryptVal[0];
+        if ( len > bufsize - sizeof(size_t) )
+        {
+            RedisModule_ReplyWithError(ctx,"ERR not encrypted value");
+            RedisModule_FreeCallReply(strReply);
+            RedisModule_Free(cryptVal);
+            continue;
+        }
+
         memmove(cryptVal, cryptVal + sizeof(size_t), len);
         RedisModule_ReplyWithStringBuffer(ctx, cryptVal, len);
         RedisModule_FreeCallReply(strReply);

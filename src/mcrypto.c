@@ -6,8 +6,8 @@
 #include <string.h>
 
 static int keysize = 16; /* 128 bits */
-static const char * IV = "qwdf*32NaR1)92<k";
-static const char * key = "GH^738ahE12NHa*gw";
+static char * IV = "qwdf*32NaR1)92<k";
+static char * key = "GH^738ahE12NHa*gw";
 
 
 int encrypt(void* buffer, int buffer_len)
@@ -17,11 +17,11 @@ int encrypt(void* buffer, int buffer_len)
   if( buffer_len % blocksize != 0 ){return 1;}
 
   mcrypt_generic_init(td, key, keysize, IV);
-  mcrypt_generic(td, buffer, buffer_len);
+  int ret = mcrypt_generic(td, buffer, buffer_len);
   mcrypt_generic_deinit (td);
   mcrypt_module_close(td);
 
-  return 0;
+  return ret;
 }
 
 int decrypt(void* buffer, int buffer_len)
@@ -31,11 +31,11 @@ int decrypt(void* buffer, int buffer_len)
   if( buffer_len % blocksize != 0 ){return 1;}
 
   mcrypt_generic_init(td, key, keysize, IV);
-  mdecrypt_generic(td, buffer, buffer_len);
+  int ret = mdecrypt_generic(td, buffer, buffer_len);
   mcrypt_generic_deinit (td);
   mcrypt_module_close(td);
 
-  return 0;
+  return ret;
 }
 
 int blocksize()
