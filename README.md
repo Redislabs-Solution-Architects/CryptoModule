@@ -1,4 +1,4 @@
-# Crypto Mudule
+# Crypto Module
 
 A module for data encryption in Redis
 
@@ -33,17 +33,17 @@ Create a database and choose the Crypto Module from the list of modules.
 ## Crypto library
 The crypto module supports multiple crypto libraries and and through that, supports multiple encryption methods.
 The module dynamically loads the crypto library provided as a parameter.
-In order for a crypto library to be used by the module, it needs to export the following funcrtions:
+In order for a crypto library to be used by the module, it needs to export the following functions:
 
 ```
 int encrypt(void* buffer, int buffer_len)
 ```
-Performs an inplace encryption of the input buffer with the input size
+Performs an in place encryption of the input buffer with the input size
 
 ```
 int decrypt(void* buffer, int buffer_len)
 ```
-Performs an inplace decryption of the input buffer with the input size
+Performs an in place decryption of the input buffer with the input size
 
 ```
 int blocksize()
