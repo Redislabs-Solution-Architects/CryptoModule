@@ -23,6 +23,7 @@ loadmodule cryptomodule.so mcrypto.so
 ```
 
 You need to provide the full path for the .so files.
+You can also specify additional parameters to initialize the crypt library.
 
 ## Loading in Redis Enterprise
 Create a zip file containing the cryptomodule.so and the module.json file.
@@ -34,6 +35,11 @@ Create a database and choose the Crypto Module from the list of modules.
 The crypto module supports multiple crypto libraries and and through that, supports multiple encryption methods.
 The module dynamically loads the crypto library provided as a parameter.
 In order for a crypto library to be used by the module, it needs to export the following functions:
+
+```
+int init(int argc, const char ** argv)
+```
+Initialize the crypt library. Return 0 on success or anything else on failure. Receives additional parameters to initialize the crypt library
 
 ```
 int encrypt(void* buffer, int buffer_len)
