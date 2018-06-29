@@ -5,6 +5,7 @@
 #include <string.h>
 #include <dlfcn.h>
 
+int (*init)(int,const char**);
 int (*encrypt)(void *,int);
 int (*decrypt)(void *,int);
 int (*blocksize)();
@@ -778,6 +779,27 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
     if (!handle) {
         fputs (dlerror(), stderr);
         exit(1);
+    }
+
+    const char **cryptArgv = NULL;
+    if ( --argc > 1 )
+    {
+	size_t len;
+	cryptArgv = malloc(sizeof (char*) * argc);
+	for (int i = 0; i < argc; i++ )
+		cryptArgv[i] = RedisModule_StringPtrLen(argv[i + 1], &len); 
+    }
+
+    init = dlsym(handle, "init");
+    if ((error = dlerror()) != NULL)  {
+        fputs(error, stderr);
+        exit(1);
+    }
+    
+    if ( (*init)(argc, cryptArgv) != 0 )
+    {
+        fputs("Failed to initialize crypt library", stderr);
+	exit(1);
     }
 
     encrypt = dlsym(handle, "encrypt");

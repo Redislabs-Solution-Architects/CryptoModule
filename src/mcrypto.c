@@ -9,6 +9,10 @@ static int keysize = 16; /* 128 bits */
 static char * IV = "qwdf*32NaR1)92<k";
 static char * key = "GH^738ahE12NHa*gw";
 
+int init(int argc, const char ** argv)
+{ 
+  return 0;
+}
 
 int encrypt(void* buffer, int buffer_len)
 {

@@ -2,6 +2,11 @@
 static const char xorArray[] = "AU7*$+jdLS{|VB2!";
 static int xorArraySize = 16;
 
+int init(int argc, const char ** argv)
+{
+  return 0;
+}
+
 int encrypt(void* buffer, int buffer_len)
 {
   char * ptr = buffer;
