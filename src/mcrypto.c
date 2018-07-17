@@ -3,25 +3,60 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
-static int keysize = 16; /* 128 bits */
 static char * IV = "qwdf*32NaR1)92<k";
 static char * key = "GH^738ahE12NHa*gw";
+static int keysize;
 
 MCRYPT encryptD = NULL;
 MCRYPT decryptD = NULL;
 
 int init(int argc, const char ** argv)
-{
-   encryptD = mcrypt_module_open("rijndael-128", NULL, "cbc", NULL);
+{ 
+   char * algo = "rijndael-128";
+   char * mode = "cbc";
+
+   for ( int i = 0; i < argc; i++ )
+   {
+   	char * eq = strchr(argv[i], '=');
+        if ( eq == NULL )
+	   continue;
+
+	*eq = '\0';
+        
+	char * name = argv[i];
+        char * value = eq + 1;
+	if ( strlen(name) == 0 || strlen(value) == 0 )
+	   continue;
+
+        if ( strcmp(name, "algo") == 0 )
+	   algo = value;
+        if ( strcmp(name, "mode") == 0 )
+	   mode = value;
+        if ( strcmp(name, "key") == 0 )
+           key = value;
+        if ( strcmp(name, "iv") == 0 )
+           IV = value;
+   }
+
+   encryptD = mcrypt_module_open(algo, NULL, mode, NULL);
    if ( encryptD == MCRYPT_FAILED)
         return -1;
 
-   decryptD = mcrypt_module_open("rijndael-128", NULL, "cbc", NULL);
+   decryptD = mcrypt_module_open(algo, NULL, mode, NULL);
    if ( decryptD == MCRYPT_FAILED)
         return -1;
 
-  return 0;
+   keysize = mcrypt_enc_get_key_size(encryptD);
+   
+   if ( mcrypt_enc_get_iv_size(encryptD) != strlen(IV) )	
+   {
+	printf("Wrong IV size, should be %d\n", mcrypt_enc_get_iv_size(encryptD));
+	return -1;
+   }
+
+   return 0;
 }
 
 int encrypt(void* buffer, int buffer_len)

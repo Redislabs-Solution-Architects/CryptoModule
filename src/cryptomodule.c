@@ -782,7 +782,7 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
     }
 
     const char **cryptArgv = NULL;
-    if ( --argc > 1 )
+    if ( --argc > 0 )
     {
 	size_t len;
 	cryptArgv = malloc(sizeof (char*) * argc);
@@ -795,7 +795,7 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx, RedisModuleString **argv, int argc) 
         fputs(error, stderr);
         exit(1);
     }
-    
+   
     if ( (*init)(argc, cryptArgv) != 0 )
     {
         fputs("Failed to initialize crypt library", stderr);
