@@ -67,6 +67,11 @@ mcrypto is used as the main encryption library. It can be initialized with the f
 * key - The encryption key. If not provided, a key hardcoded in the module is used.
 * IV - A random sequence of bytes used for block encryption. If not provided, an IV that matches the `rijndael-128` algorithm is used. If you cahnge the algorith, you need to provide an IV in the size of the algorithm encryption block.
 
+To provide those parameters, add them at the end of the load module command as the following example:
+```
+algo=cast-128 mode=cbf key=<encryption key of maximum 16 byte> iv=<16 random bytes>
+```
+
 The following table shows the supported algorithms with their block size and supported modes:
 
 | Algorithm       | Block size (bytes) | Supported modes               |
