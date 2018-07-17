@@ -60,6 +60,37 @@ The module comes with 2 crypto libraries:
 * simplecrypto - This library encrypts data by performing a bitwise XOR operation with some random data. It mainly serves as an example of a crypto library.
 * mcrypto - This library uses the mcrypt library. You need to make sure that mcrypt is installed on the server in order to use it.
 
+## The mcrypto library
+mcrypto is used as the main encryption library. It can be initialized with the following parameters:
+* Algorithm - The encryption algorithm to use. The default algorithm is `rijndael-128`.
+* Mode - The encryption mode. The default mode is `cbc`.
+* key - The encryption key. If not provided, a key hardcoded in the module is used.
+* IV - A random sequence of bytes used for block encryption. If not provided, an IV that matches the `rijndael-128` algorithm is used. If you cahnge the algorith, you need to provide an IV in the size of the algorithm encryption block.
+
+The following table shows the supported algorithms with their block size and supported modes:
+
+| Algorithm       | Block size (bytes) | Supported modes               |
+|:---------------:|:------------------:|:-----------------------------:|
+| cast-128        | 16         	       | cbc cfb ctr ecb ncfb nofb ofb
+| gost            | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| rijndael-128    | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| twofish         | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| arcfour         | 256                | stream
+| cast-256        | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| loki97          | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| rijndael-192    | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| saferplus       | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| wake            | 32                 | stream
+| blowfish-compat | 56                 | cbc cfb ctr ecb ncfb nofb ofb
+| des             | 8                  | cbc cfb ctr ecb ncfb nofb ofb
+| rijndael-256    | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| serpent         | 32                 | cbc cfb ctr ecb ncfb nofb ofb
+| xtea            | 16                 | cbc cfb ctr ecb ncfb nofb ofb
+| blowfish        | 56                 | cbc cfb ctr ecb ncfb nofb ofb
+| enigma          | 13                 | stream
+| rc2             | 128                | cbc cfb ctr ecb ncfb nofb ofb
+| tripledes       | 24                 | cbc cfb ctr ecb ncfb nofb ofb
+
 ## Commands
 The following commands are supported by the module:
 
